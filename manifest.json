@@ -1,0 +1,24 @@
+{ 
+  "manifest_version": 2,
+  "name": "nix",
+  "version": "0.1",
+
+  "description": "Sonification of http browser session traffic.",
+
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.facbeook.com/*"],
+      "js": ["nix.js"]
+    }
+  ],
+  "applications": {
+    "gecko": {
+      "id": "nix@0.1"
+    }
+  }
+
+}
