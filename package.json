@@ -1,0 +1,15 @@
+{
+  "name": "nix",
+  "version": "0.1",
+  "description": "Sonification of http browser session traffic.",
+  "main": "index.js",
+  "repository": "git@github.com:wekaco/nix.git",
+  "author": "Dmtrs We Flaco <tydeas.dr@gmail.com>",
+  "license": "",
+  "scripts": {
+    "dev": "./node_modules/.bin/web-ext run --firefox=firefoxdeveloperedition --verbose"
+  },
+  "devDependencies": {
+    "web-ext": "^3.0.0"
+  }
+}

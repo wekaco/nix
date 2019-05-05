@@ -9,6 +9,14 @@ Sonification of http browser session traffic.
 2. Click `Load Temporary Add-on..`
 3. Select `*/nix/manifest.json`
 
+## Development
+
+Setup and development:
+```
+cd nix/
+yarn
+yarn dev
+```
 
 [icon-48]: ./icons/icon-48.png "nix"
 
