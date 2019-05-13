@@ -15,7 +15,7 @@ Setup and development:
 ```
 cd nix/
 yarn
-yarn dev
+yarn watch
 ```
 
 [icon-48]: ./icons/icon-48.png "nix"
