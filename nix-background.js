@@ -1,29 +1,27 @@
-let r = new Map();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-function onBeforeRequest(details) {
-  r.set(details.requestId, performance.now());
-  console.log(`onBeforeRequest ${details.requestId}`);
-}
-function onCompleted(details) {
-  if(r.has(details.requestId)) {
-    console.log(performance.now());
-    let duration = performance.now() - r.get(details.requestId);
-    console.log(`Completed ${details.requestId}: ${duration}`);
+const durationScale = message => message.duration / 100;
+const frequencyCalc = message => {
+  if (message.transferSize > 0) {
+    return message.transferSize;
   }
-}
-var filter = {
-  urls:
-  ["<all_urls>"]
+  return message.decodedBodySize;
 };
 
+const onMessageListener = (ctx) => (message, sender) => {
+  let options = {
+    type: 'sine',
+    detune: 0,
+    frequency: frequencyCalc(message)
+  };
+  let osc = new OscillatorNode(ctx, options);
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + durationScale(message));
+  console.log(message, sender);//, ctx.currentTime);
+};
 
-/**browser.webRequest.onBeforeRequest.addListener(
-  onBeforeRequest,
-  filter
-);
-browser.webRequest.onBeforeRequest.addListener(
-  onCompleted,
-  filter
-);**/
-
-browser.runtime.onMessage.addListener(console.log);
+browser
+  .runtime
+  .onMessage
+  .addListener(onMessageListener(new AudioContext()));
