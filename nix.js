@@ -1,5 +1,9 @@
 console.log("nix started");
 
+//lower values mean less events captured
+const maxSize = 15;
+window.performance.setResourceTimingBufferSize(maxSize);
+
 let PERFORMANCE_ENTRY_TYPE_RESOURCE = "resource";
 const observer = new PerformanceObserver((list, observer) => {
   let messages = list.getEntries().map( entry => {
@@ -24,3 +28,4 @@ const observer = new PerformanceObserver((list, observer) => {
 });
 
 observer.observe({ entryTypes: [ PERFORMANCE_ENTRY_TYPE_RESOURCE ] });
+

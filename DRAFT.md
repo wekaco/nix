@@ -1,0 +1,4 @@
+- Stop sound when closing tab
+- Clear entries after time / maxSize for buffer
+- Frequency barriers
+- https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/createPeriodicWave

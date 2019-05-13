@@ -18,10 +18,12 @@ const onMessageListener = (ctx) => (message, sender) => {
   osc.connect(ctx.destination);
   osc.start();
   osc.stop(ctx.currentTime + durationScale(message));
-  console.log(message, sender);//, ctx.currentTime);
+  console.log(message.name);
 };
 
 browser
   .runtime
   .onMessage
   .addListener(onMessageListener(new AudioContext()));
+
+
