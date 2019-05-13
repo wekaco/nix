@@ -9,12 +9,12 @@
     "48": "icons/icon-48.png"
   },
   "background": {
-    "page": "index.html"
+    "page": "dist/index.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["nix.js"]
+      "js": ["dist/nix.js"]
     }
   ],
   "applications": {

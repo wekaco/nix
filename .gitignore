@@ -31,10 +31,7 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-
-# Compiled apiary document
-apiary.apib
-index.html
+dist
 
 # Dependency directories
 node_modules
