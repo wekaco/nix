@@ -7,9 +7,11 @@
   "author": "Dmtrs We Flaco <tydeas.dr@gmail.com>",
   "license": "",
   "scripts": {
-    "dev": "./node_modules/.bin/web-ext run --firefox=firefoxdeveloperedition --verbose"
+    "ff": "./node_modules/.bin/web-ext run --firefox=firefoxdeveloperedition --verbose",
+    "dev": "./node_modules/.bin/http-server"
   },
   "devDependencies": {
+    "http-server": "^0.11.1",
     "web-ext": "^3.0.0"
   }
 }

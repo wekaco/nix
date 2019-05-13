@@ -8,10 +8,12 @@
   "icons": {
     "48": "icons/icon-48.png"
   },
-
+  "background": {
+    "page": "index.html"
+  },
   "content_scripts": [
     {
-      "matches": ["*://*.facbeook.com/*"],
+      "matches": ["<all_urls>"],
       "js": ["nix.js"]
     }
   ],
@@ -19,6 +21,10 @@
     "gecko": {
       "id": "nix@0.1"
     }
-  }
-
+  },
+  "permissions": [
+    "<all_urls>",
+    "webRequest",
+    "webNavigation"
+  ]
 }
