@@ -1,7 +1,7 @@
 console.log("nix started");
 
 //lower values mean less events captured
-const maxSize = 15;
+const maxSize = 1500;
 window.performance.setResourceTimingBufferSize(maxSize);
 
 let PERFORMANCE_ENTRY_TYPE_RESOURCE = "resource";

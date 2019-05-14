@@ -1,24 +1,32 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-const durationScale = message => message.duration / 100;
+const DURATION_SCALE = 1000;
+const FREQUENCY_SCALE = 2;
+
+const durationScale = message => message.duration / DURATION_SCALE;
 const frequencyCalc = message => {
   if (message.transferSize > 0) {
-    return message.transferSize;
+    return message.transferSize / FREQUENCY_SCALE;
   }
-  return message.decodedBodySize;
+  return message.decodedBodySize / FREQUENCY_SCALE;
 };
 
 const onMessageListener = (ctx) => (message, sender) => {
+  let frequency = frequencyCalc(message);
   let options = {
     type: 'sine',
     detune: 0,
-    frequency: frequencyCalc(message)
+    frequency
   };
+
   let osc = new OscillatorNode(ctx, options);
   osc.connect(ctx.destination);
   osc.start();
-  osc.stop(ctx.currentTime + durationScale(message));
-  console.log(message.name);
+
+  let duration = durationScale(message);
+  let endTime = ctx.currentTime + duration;
+  osc.stop(endTime);
+  console.log(message.name, options.frequency, duration);
 };
 
 browser
