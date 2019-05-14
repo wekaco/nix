@@ -1,6 +1,6 @@
 {
   "name": "nix",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "Sonification of http browser session traffic.",
   "main": "index.js",
   "repository": "git@github.com:wekaco/nix.git",
