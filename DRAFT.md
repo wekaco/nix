@@ -2,6 +2,8 @@
 Quick notes.
 
 ##Next actions
+- Master gain 
+- Persist score on localstorage/server (prerequirement time on each message send to background)
 - Stop sound when closing tab
 - Clear entries after time / maxSize for buffer as sesitivity argument.
   Initialize the runtime with give value from background. On change of sensitivy value update content-scripts (?). 
