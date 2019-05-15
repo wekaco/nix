@@ -6,6 +6,8 @@ const FREQUENCY_SCALE = 2;
 const FREQUENCY_MAX = 22100;
 const FREQUENCY_MIN = 20;
 
+const LATENCY = 0.007;
+
 const durationScale = message => message.duration / DURATION_SCALE;
 const frequencyCalc = message => {
   if (message.transferSize > 0) {
@@ -40,32 +42,48 @@ const drop = ((delay) => {
 })(4000);
 
 
-const onMessageListener = (ctx) => (message, sender) => {
+const nix = (ctx) => {
+  const master = ctx.createGain();
+  master.gain.value = 0.01;
+  master.connect(ctx.destination);
+ 
+  const onMessageListener = (message, sender) => {
+    let frequency = frequencyCalc(message);
+    if (drop(frequency)) {
+      console.log(`drop ${message.name} freq ${frequency}`);
+      return;
+    }
 
-  let frequency = frequencyCalc(message);
-  if (drop(frequency)) {
-    console.log(`drop ${message.name} freq ${frequency}`);
-    return;
-  }
+    let options = {
+      type: 'sine',
+      detune: 0,
+      frequency
+    };
 
-  let options = {
-    type: 'sine',
-    detune: 0,
-    frequency
+    let osc = new OscillatorNode(ctx, options);
+    osc.connect(master);
+    osc.start();
+
+    let duration = durationScale(message);
+    let endTime = ctx.currentTime + duration;
+    osc.stop(endTime);
   };
-
-  let osc = new OscillatorNode(ctx, options);
-  osc.connect(ctx.destination);
-  osc.start();
-
-  let duration = durationScale(message);
-  let endTime = ctx.currentTime + duration;
-  osc.stop(endTime);
+  return {
+    master: {
+      gain: (value) => master.gain.setValueAtTime(value, ctx.currentTime + LATENCY),
+    },
+    onMessageListener
+  };
 };
+
+
+const { master, onMessageListener } = nix(new AudioContext());
+
+window.nix = master;
 
 browser
   .runtime
   .onMessage
-  .addListener(onMessageListener(new AudioContext()));
+  .addListener(onMessageListener);
 
 
