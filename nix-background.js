@@ -14,21 +14,39 @@ const frequencyCalc = message => {
   return message.decodedBodySize / FREQUENCY_SCALE;
 };
 
-const stats = { hits: 0, totals: 0 };
-setInterval(({ hits, totals }) => {
-  console.info(`${Math.round((hits/totals)*100)}% of ${totals}`)
-}, 4000, stats);
+
+
+
+const drop = ((delay) => {
+  const stats = { miss: { low: 0, high: 0 }, totals: 0 };
+  const dump = (s) => {
+    let hits = s.totals - (s.miss.low + s.miss.high)
+    return `${Math.round((hits/s.totals)*100)}% of ${s.totals}.Missed: ${s.miss.low}/${s.miss.high}`;
+  };
+
+  setInterval((info) => console.log(dump(info)), delay, stats);
+  return (frequency) => {
+    stats.totals++;
+    if (frequency > FREQUENCY_MAX) {
+      stats.miss.high++;
+      return true;
+    }
+    if (frequency < FREQUENCY_MIN) {
+      stats.miss.low++;
+      return true;
+    }
+    return false;
+  };
+})(4000);
+
 
 const onMessageListener = (ctx) => (message, sender) => {
-  stats.totals++;
-  
+
   let frequency = frequencyCalc(message);
-  if (frequency > FREQUENCY_MAX || frequency < FREQUENCY_MIN) {
-    console.warn(`drop ${message.name} freq ${frequency}`);
+  if (drop(frequency)) {
+    console.log(`drop ${message.name} freq ${frequency}`);
     return;
   }
-
-  stats.hits++;
 
   let options = {
     type: 'sine',

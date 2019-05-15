@@ -8,6 +8,7 @@ Quick notes.
   Sensitivity is maxSize of buffer and interval of flush.
 - ADSR utilizing breakdown found in performance entry.
 - Utilize periodic waves to create unique osc for each domain/path or name.
+- Logging to localstorage / avro support to handle versioning of schema
 
 ##Resources
 
